@@ -93,6 +93,11 @@ Now I run the test again and the result is success with code 200.
 ![Screenshot 2025-04-13 at 10 14 41](https://github.com/user-attachments/assets/37d4c63a-eb63-446a-9aa0-e6918c95edf9)
 
 The workspace is secure since only this lambda function has access to it and the endpoint cannot be called from  elsewhere.
+The vulnerabilities naturally occure with attaching fullaccess roles. This access can be minimized.
+
+The old and inactive roles that contain this full access are vulnerable and can be exploited.
+
+The projects and IAM roles must be ripped off of the roles that are irrelevant to them or the roles that they don't use anymore.
 
 ## Step 5
 
@@ -102,11 +107,12 @@ Setting up Concurrency
 
 I have reserved 2 and 2 provisioned concurrency instance that are going to parallelize requests and keep the load on the instances lower.
 Setting up Autoscaling
+This can be costly as we have 2 reserved concurrency but it can well handle a high traffic situation and able to do concurrency for up to 2 instances more.
 
 ![Screenshot 2025-04-13 at 10 34 15](https://github.com/user-attachments/assets/4551e4cf-183d-4984-b292-2f6e93917ad9)
 
 The Autoscaling will scale up the to up to 3 instances. We are only using CPU instances. It waits 600 mlseconds until it scale out and takes 600 mlsecond until it scale back down.
-
+It takes a bit long 600mlseconds to scale up which can be a bit long and can yield failed api calls but reduce the costs. on the other hand it waits 600mlsecond before scaling down which can also increase the cost but it remains responsive for longer.
 
 
 
